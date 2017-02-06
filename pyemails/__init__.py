@@ -1,0 +1,1 @@
+from pyemails.main import email
