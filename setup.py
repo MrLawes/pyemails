@@ -3,7 +3,7 @@
 from setuptools import setup
 from setuptools import find_packages
 
-VERSION = '0.0.1'
+VERSION = '1.0.0'
 
 setup(
     name='pyemails',
