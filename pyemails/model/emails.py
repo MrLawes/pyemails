@@ -14,6 +14,8 @@ class Email(object):
         '''
         if from_user.endswith('@qq.com'):
             return 'smtp.qq.com'
+        elif from_user.endswith('@i-vsun.com'):
+            return 'smtp.exmail.qq.com'
         raise 'set mail_host please'
 
     @classmethod
