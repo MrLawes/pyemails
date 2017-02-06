@@ -1,1 +1,1 @@
-from pyemails.main import email
+from pyemails.model.emails import sendmail
