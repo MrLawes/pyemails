@@ -14,8 +14,21 @@ class Email(object):
         '''
         if from_user.endswith('@qq.com'):
             return 'smtp.qq.com'
-        elif from_user.endswith('@i-vsun.com'):
-            return 'smtp.exmail.qq.com'
+        elif from_user.endswith('@163.com'):
+            return 'smtp.163.net'
+        elif from_user.endswith('@126.com'):
+            return 'smtp.126.com'
+        elif from_user.endswith('@yeah.net'):
+            return 'smtp.yeah.net'
+        elif from_user.endswith('@sina.cn'):
+            return 'smtp.sina.com'
+        elif from_user.endswith('@sina.com'):
+            return 'smtp.sina.com'
+        elif from_user.endswith('@yahoo.com'):
+            return 'smtp.mail.yahoo.cn'
+        elif from_user.endswith('@sohu.com'):
+            return 'smtp.sohu.com'
+
         raise 'set mail_host please'
 
     @classmethod
