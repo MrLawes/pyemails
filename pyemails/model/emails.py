@@ -31,11 +31,13 @@ class Email(object):
         self.host = host
 
     def add_mime_text(self, text):
-        """ 添加内容
-        :param text:
+        """ 添加内容，每次是追加的方式
+        :param text:    要加邮件的内容
         :return:
         """
-        self._msg = '<div>%s</div>' % (text)
+        if isinstance(text, unicode):
+            text = text.encode('utf-8')
+        self._msg += '<div>%s</div>' % (text) + '<br>'
 
     @property
     def msg(self):
