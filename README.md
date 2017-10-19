@@ -9,4 +9,5 @@
 * print email_obj.user,email_obj.password,email_obj.host
 * \#  \>\>\> example@qq.com, example, smtp.exmail.qq.com
 * email_obj.add_mime_text(u'你好')
-* \#  \>\>\> <!DOCTYPE html><html lang="en"><body><div>你好</div></body></html>
+* print email_obj.text
+* \#  \>\>\> \<!DOCTYPE html\>\<html lang="en"\>\<body\>\<div\>你好\</div\>\</body\>\</html\>

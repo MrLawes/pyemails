@@ -21,7 +21,7 @@ class Email(object):
         self.host = host
         self.user = user
         self.password = password
-        self._msg = ''
+        self._text = ''
 
     def set_host(self, host):
         """ 修改 host
@@ -37,11 +37,11 @@ class Email(object):
         """
         if isinstance(text, unicode):
             text = text.encode('utf-8')
-        self._msg += '<div>%s</div>' % (text) + '<br>'
+        self._text += '<div>%s</div>' % (text) + '<br>'
 
     @property
-    def msg(self):
-        return self.HTML.format(msg=self._msg)
+    def text(self):
+        return self.HTML.format(msg=self._text)
 
     def send(self, to_addrs, cc):
         """ 发送邮件
