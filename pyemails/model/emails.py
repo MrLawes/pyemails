@@ -4,8 +4,57 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import traceback
+from email.mime.image import MIMEImage
+
 
 class Email(object):
+    HTML = '<!DOCTYPE html><html lang="en"><body>{msg}</body></html>'
+
+    def __init__(self, user, password, host=None):
+        """
+        :param user:        用户名
+        :param password:    密码
+        :param host:        邮箱的 host
+        """
+        if host == None:
+            host = self.get_mail_host(user)
+        self.host = host
+        self.user = user
+        self.password = password
+        self._msg = ''
+
+    def set_host(self, host):
+        """ 修改 host
+        :param host:
+        :return:
+        """
+        self.host = host
+
+    def add_mime_text(self, text):
+        """ 添加内容
+        :param text:
+        :return:
+        """
+        self._msg = '<div>%s</div>' % (text)
+
+    @property
+    def msg(self):
+        return self.HTML.format(msg=self._msg)
+
+    def send(self, to_addrs, cc):
+        """ 发送邮件
+        :param to_addrs:    目标地址
+        :param cc:          抄送
+        :return:
+        """
+        if isinstance(to_addrs, basestring):
+            to_addrs = [to_addrs]
+        if isinstance(cc, basestring):
+            cc = [cc]
+
+        me = self.user + '<' + self.user + '>'
+        msg = MIMEMultipart('related')
+        server.sendmail(me, to_addrs + cc, msg.as_string())
 
     @classmethod
     def get_mail_host(cls, from_user):
@@ -32,7 +81,8 @@ class Email(object):
         raise 'set mail_host please'
 
     @classmethod
-    def sendmail(cls, from_user,from_password,to_list,subject=u'标题',content=u'邮件内容',format='',file_name='',mail_host='',cc=None):
+    def sendmail(cls, from_user, from_password, to_list, subject=u'标题', content=u'邮件内容', format='', file_name='',
+                 mail_host='', cc=None, img_list=None):
         '''
         from_user, from_password: 发件人的用户名和密码
         subject 邮件标题
@@ -71,10 +121,11 @@ class Email(object):
                 server.connect(mail_host)
             else:
                 server.connect(cls.get_mail_host(from_user))
-            server.login(from_user,from_password)
+            server.login(from_user, from_password)
             server.sendmail(me, to_list + cc, msg.as_string())
             server.close()
         except:
             print traceback.format_exc()
+
 
 sendmail = Email.sendmail
