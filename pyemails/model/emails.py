@@ -23,6 +23,7 @@ class Email(object):
         self.password = password
         self._text = ''
         self._attach_list = []
+        self._img_id = 1
 
     def set_host(self, host):
         """ 修改 host
@@ -41,11 +42,45 @@ class Email(object):
         self._text += '<div>%s</div>' % (text) + '<br>'
 
     def add_mime_file(self, file_name):
+        """ 添加文件
+        :param file_name:
+        :return:
+        """
         if file_name.strip():
-            mail_attach = MIMEText(open(file_name, 'rb').read(), 'base64', 'unicode')
+            open_file = open(file_name, 'rb')
+            mail_attach = MIMEText(open_file.read(), 'base64', 'unicode')
             mail_attach["Content-Type"] = 'application/octet-stream'
-            mail_attach["Content-Disposition"] = 'attachment; filename="%s"' % (file_name.encode('utf-8'))
+            mail_attach["Content-Disposition"] = 'attachment; filename="%s"' % (open_file.name.encode('utf-8'))
             self._attach_list.append(mail_attach)
+
+    def add_mine_image(self, image_path_list, table_name='', td=1):
+        """ 直接添加图片到邮件正文
+        :param image_path_list:         图片的位置
+        :param table_name:              标题名字
+        :param td:                      分一行显示
+        :return:
+        """
+        if isinstance(image_path_list, basestring):
+            image_path_list = [image_path_list]
+        table_text = """<div><table width="600" border="0" cellspacing="0" cellpadding="4">{table_name}{table_context}</table></div>"""
+        if isinstance(table_name, unicode):
+            table_name = table_name.encode('utf-8')
+        table_name_text = """<tr bgcolor="#CECFAD" height="20" style="font-size:14px"><td colspan=4 align="center">%s</td></tr>""" % (
+            table_name)
+        table_context = "<tr>"
+        for iindex, image_path in enumerate(image_path_list):
+            fp = open(image_path, 'rb')
+            msgImage = MIMEImage(fp.read())
+            fp.close()
+            mid = 'mid_' + str(self._img_id)
+            msgImage.add_header('Content-ID', mid)
+            table_context += """<td><img src="cid:%s"></td>""" % (mid)
+            if (iindex % td) + 1 == td:
+                table_context += "</tr><tr>"
+            self._img_id += 1
+            self._attach_list.append(msgImage)
+        table_context += "</tr>"
+        self._text += table_text.format(table_name=table_name_text, table_context=table_context)
 
     @property
     def text(self):
