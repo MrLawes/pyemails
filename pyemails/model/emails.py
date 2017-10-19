@@ -22,6 +22,7 @@ class Email(object):
         self.user = user
         self.password = password
         self._text = ''
+        self._attach_list = []
 
     def set_host(self, host):
         """ 修改 host
@@ -38,6 +39,13 @@ class Email(object):
         if isinstance(text, unicode):
             text = text.encode('utf-8')
         self._text += '<div>%s</div>' % (text) + '<br>'
+
+    def add_mime_file(self, file_name):
+        if file_name.strip():
+            mail_attach = MIMEText(open(file_name, 'rb').read(), 'base64', 'unicode')
+            mail_attach["Content-Type"] = 'application/octet-stream'
+            mail_attach["Content-Disposition"] = 'attachment; filename="%s"' % (file_name.encode('utf-8'))
+            self._attach_list.append(mail_attach)
 
     @property
     def text(self):
@@ -59,6 +67,8 @@ class Email(object):
         msg = MIMEMultipart('related')
         mime_text = MIMEText(self.text, 'html', 'utf-8')
         msg.attach(mime_text)
+        for attach in self._attach_list:
+            msg.attach(attach)
         server = smtplib.SMTP()
         server.connect(self.host)
         server.login(self.user, self.password)
@@ -70,23 +80,6 @@ class Email(object):
             msg['To'] = ", ".join(cc)
         server.sendmail(me, to_addrs + cc, msg.as_string())
         server.close()
-
-        #
-        # msg['Subject'] = subject
-        # msg['From'] = me
-        # if isinstance(to_list, basestring):
-        #     to_list = [to_list]
-        # msg['To'] = ", ".join(to_list)
-        # if cc:
-        #     if isinstance(cc, basestring):
-        #         cc = [cc]
-        #     msg['Cc'] = ', '.join(cc)
-        # try:
-        #     server = smtplib.SMTP()
-        #     if mail_host:
-        #         server.connect(mail_host)
-        #     else:
-        #         server.connect(cls.
 
     @classmethod
     def get_mail_host(cls, from_user):

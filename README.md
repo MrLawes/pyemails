@@ -11,4 +11,8 @@
 * email_obj.add_mime_text(u'你好')
 * print email_obj.text
 * \#  \>\>\> \<!DOCTYPE html\>\<html lang="en"\>\<body\>\<div\>你好\</div\>\</body\>\</html\>
+* \# 发送文件
+* email_obj.add_mime_file(r'D:\tmp\111.xlsx')
 * email_obj.send(to_addrs=['tocom', ],cc=['cc@com', ], subject=subject)
+
+
