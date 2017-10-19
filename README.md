@@ -1,6 +1,9 @@
 快速预览
 * from pyemails import Email
-* pyemails.sendmail(from_user='example@qq.com',from_password='example',to_list=['example@qq.com',])
-
-注：
-腾讯企业邮箱：smtp.exmail.qq.com；需要设置 mail_host='smtp.exmail.qq.com'
+* # 申明用户名和密码及host, 腾讯企业邮箱：smtp.exmail.qq.com；需要设置 host='smtp.exmail.qq.com'
+* email_obj = Email(user='example@qq.com', password='example', host='xxx')
+* print email_obj.user,email_obj.password,email_obj.host
+* # 修改 host 
+* email_obj.set_host(host='smtp.exmail.qq.com')
+* print email_obj.user,email_obj.password,email_obj.host
+* 
