@@ -11,3 +11,4 @@
 * email_obj.add_mime_text(u'你好')
 * print email_obj.text
 * \#  \>\>\> \<!DOCTYPE html\>\<html lang="en"\>\<body\>\<div\>你好\</div\>\</body\>\</html\>
+* email_obj.send(to_addrs=['tocom', ],cc=['cc@com', ], subject=subject)

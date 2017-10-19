@@ -43,20 +43,50 @@ class Email(object):
     def text(self):
         return self.HTML.format(msg=self._text)
 
-    def send(self, to_addrs, cc):
+    def send(self, to_addrs, cc=None, subject=''):
         """ 发送邮件
         :param to_addrs:    目标地址
         :param cc:          抄送
+        :param subject      标题
         :return:
         """
         if isinstance(to_addrs, basestring):
             to_addrs = [to_addrs]
         if isinstance(cc, basestring):
             cc = [cc]
-
-        me = self.user + '<' + self.user + '>'
+        elif cc == None:
+            cc = []
         msg = MIMEMultipart('related')
+        mime_text = MIMEText(self.text, 'html', 'utf-8')
+        msg.attach(mime_text)
+        server = smtplib.SMTP()
+        server.connect(self.host)
+        server.login(self.user, self.password)
+        me = self.user + '<' + self.user + '>'
+        msg['Subject'] = subject
+        msg['From'] = me
+        msg['To'] = ', '.join(to_addrs)
+        if cc:
+            msg['To'] = ", ".join(cc)
         server.sendmail(me, to_addrs + cc, msg.as_string())
+        server.close()
+
+        #
+        # msg['Subject'] = subject
+        # msg['From'] = me
+        # if isinstance(to_list, basestring):
+        #     to_list = [to_list]
+        # msg['To'] = ", ".join(to_list)
+        # if cc:
+        #     if isinstance(cc, basestring):
+        #         cc = [cc]
+        #     msg['Cc'] = ', '.join(cc)
+        # try:
+        #     server = smtplib.SMTP()
+        #     if mail_host:
+        #         server.connect(mail_host)
+        #     else:
+        #         server.connect(cls.
 
     @classmethod
     def get_mail_host(cls, from_user):
