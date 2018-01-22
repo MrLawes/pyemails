@@ -112,7 +112,7 @@ class Email(object):
         msg['From'] = me
         msg['To'] = ', '.join(to_addrs)
         if cc:
-            msg['To'] = ", ".join(cc)
+            msg['Cc'] = ", ".join(cc)
         server.sendmail(me, to_addrs + cc, msg.as_string())
         server.close()
 
