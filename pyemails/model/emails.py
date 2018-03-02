@@ -84,6 +84,7 @@ class Email(object):
 
     @property
     def text(self):
+        self._text = self._text.replace('\n', '<br>')
         return self.HTML.format(msg=self._text)
 
     def send(self, to_addrs, cc=None, subject=''):
@@ -185,7 +186,7 @@ class Email(object):
             server.sendmail(me, to_list + cc, msg.as_string())
             server.close()
         except:
-            print traceback.format_exc()
+            print(traceback.format_exc())
 
 
 sendmail = Email.sendmail
