@@ -94,12 +94,8 @@ class Email(object):
         :param subject      标题
         :return:
         """
-        try:
-            if isinstance(to_addrs, str):
-                to_addrs = [to_addrs]
-        except:
-            if isinstance(to_addrs, str):
-                to_addrs = [to_addrs]
+        if isinstance(to_addrs, str):
+            to_addrs = [to_addrs]
         if isinstance(cc, str):
             cc = [cc]
         elif cc == None:
