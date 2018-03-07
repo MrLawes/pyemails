@@ -37,8 +37,8 @@ class Email(object):
         :param text:    要加邮件的内容
         :return:
         """
-        if isinstance(text, unicode):
-            text = text.encode('utf-8')
+        # if isinstance(text, unicode):
+        #     text = text.encode('utf-8')
         self._text += '<div>%s</div>' % (text) + '<br>'
 
     def add_mime_file(self, file_name):
@@ -60,11 +60,11 @@ class Email(object):
         :param td:                      分一行显示
         :return:
         """
-        if isinstance(image_path_list, basestring):
+        if isinstance(image_path_list, str):
             image_path_list = [image_path_list]
         table_text = """<div><table width="600" border="0" cellspacing="0" cellpadding="4">{table_name}{table_context}</table></div>"""
-        if isinstance(table_name, unicode):
-            table_name = table_name.encode('utf-8')
+        # if isinstance(table_name, unicode):
+        #     table_name = table_name.encode('utf-8')
         table_name_text = """<tr bgcolor="#CECFAD" height="20" style="font-size:14px"><td colspan=4 align="center">%s</td></tr>""" % (
             table_name)
         table_context = "<tr>"
@@ -94,9 +94,13 @@ class Email(object):
         :param subject      标题
         :return:
         """
-        if isinstance(to_addrs, basestring):
-            to_addrs = [to_addrs]
-        if isinstance(cc, basestring):
+        try:
+            if isinstance(to_addrs, str):
+                to_addrs = [to_addrs]
+        except:
+            if isinstance(to_addrs, str):
+                to_addrs = [to_addrs]
+        if isinstance(cc, str):
             cc = [cc]
         elif cc == None:
             cc = []
@@ -169,11 +173,11 @@ class Email(object):
             msg.attach(mail_attach)
         msg['Subject'] = subject
         msg['From'] = me
-        if isinstance(to_list, basestring):
+        if isinstance(to_list, str):
             to_list = [to_list]
         msg['To'] = ", ".join(to_list)
         if cc:
-            if isinstance(cc, basestring):
+            if isinstance(cc, str):
                 cc = [cc]
             msg['Cc'] = ', '.join(cc)
         try:
