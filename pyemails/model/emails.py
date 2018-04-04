@@ -84,7 +84,7 @@ class Email(object):
 
     @property
     def text(self):
-        self._text = self._text.replace('\n', '<br>')
+        # self._text = self._text.replace('\n', '<br>')
         return self.HTML.format(msg=self._text)
 
     def send(self, to_addrs, cc=None, subject=''):
