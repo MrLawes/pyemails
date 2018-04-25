@@ -3,11 +3,11 @@
 from setuptools import setup
 from setuptools import find_packages
 
-VERSION = '1.1.4'
+VERSION = '1.1.5'
 
 setup(
     name='pyemails',
-    description='find the operator by phone',
+    description='',
     long_description='',
     classifiers=[],
     keywords='',
